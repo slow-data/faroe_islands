@@ -25,8 +25,8 @@ library(scales) # 1.1.0
 # 2. Prepare Geometries
 # ------------------------
 
-# Faroe island OpenStreetMap extract downloaded from http://glunimore.geofabrik.de/index.html and stored in ./shapes
-# All needed shapes will be read rgdal library and reprojected to Web Mercator (EPSG: 3857)
+# Faroe island OpenStreetMap extract downloaded from http://glunimore.geofabrik.de/index.html and stored in /shapes subfolder.
+# All needed shapes will be read rgdal library and reprojected to Web Mercator (EPSG: 3857).
 
 # Read natural (areas)
 gis_osm_natural_a_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_natural_a_free_1")
