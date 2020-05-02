@@ -16,3 +16,7 @@ GeoFabrik has specified a general-use mapping of the basic features like roads, 
 I downloaded the excerpt of Faroe Island on April 2020. Unless major changes will occurr on OSM and GeoFabrik layering specifications, you should be able to reproduce my plots easily (I did not uploaded data in this repo).
 
 If you want more details feel free to reach out!
+
+![Regions of Faroe Islands](https://github.com/slow-data/faroe_islands/blob/master/out/faroe_sysla.png)
+
+
