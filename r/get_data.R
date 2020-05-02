@@ -18,8 +18,8 @@ sessionInfo()
 # Platform: x86_64-w64-mingw32/x64 (64-bit)
 # Running under: Windows >= 8 x64 (build 9200)
 
-# Faroe island OpenStreetMap extract downloaded from http://glunimore.geofabrik.de/index.html and stored in ./shapes
-# All needed shapes will be read rgdal library and reprojected to Web Mercator (EPSG: 3857)
+# Faroe island OpenStreetMap extract downloaded from http://glunimore.geofabrik.de/index.html and stored in the /shapes subfolder of the project.
+# All needed shapes will be read with readOGR function and reprojected to Web Mercator (EPSG: 3857).
 
 # Read buildings
 gis_osm_buildings_a_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_buildings_a_free_1")
@@ -43,7 +43,7 @@ beach <- gis_osm_natural_free_1[gis_osm_natural_free_1$fclass=="beach",]
 gis_osm_places_a_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_places_a_free_1")
 gis_osm_places_a_free_1 <- spTransform(gis_osm_places_a_free_1, CRS=CRS("+init=epsg:3857"))
 
-# I downloaded Wikipedia table with 18 main islands of Faroe and some information, stored in /data
+# I downloaded Wikipedia table with 18 main islands of Faroe and some information, stored in /data subfolder
 # Read Wikipedia table
 main_islands_wiki <- read_delim("../data/main_islands_wiki.csv", ";", 
                                 escape_double = FALSE, trim_ws = TRUE)
