@@ -20,6 +20,7 @@ library(ggsn) # 0.5.0
 library(ggrepel) # 0.8.2
 library(rgeos) # 0.5.2
 library(scales) # 1.1.0
+library(here)
 
 # ------------------------
 # 2. Prepare Geometries
@@ -29,7 +30,7 @@ library(scales) # 1.1.0
 # All needed shapes will be read rgdal library and reprojected to Web Mercator (EPSG: 3857).
 
 # Read natural (areas)
-gis_osm_natural_a_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_natural_a_free_1")
+gis_osm_natural_a_free_1 <- readOGR(dsn = here("shapes", "faroe-islands-latest-free.shp"), layer = "gis_osm_natural_a_free_1")
 gis_osm_natural_a_free_1 <- spTransform(gis_osm_natural_a_free_1, CRS=CRS("+init=epsg:3857"))
 
 # Extract beaches and cliffs (areas)
@@ -37,7 +38,7 @@ beach_a <- gis_osm_natural_a_free_1[gis_osm_natural_a_free_1$fclass=="beach",]
 cliff_a <- gis_osm_natural_a_free_1[gis_osm_natural_a_free_1$fclass=="cliff",]
 
 # Read natural (points or lines)
-gis_osm_natural_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_natural_free_1")
+gis_osm_natural_free_1 <- readOGR(dsn = here("shapes", "faroe-islands-latest-free.shp"), layer = "gis_osm_natural_free_1")
 gis_osm_natural_free_1 <- spTransform(gis_osm_natural_free_1, CRS=CRS("+init=epsg:3857"))
 
 # Extract beaches and cliffs (points or lines)
@@ -45,7 +46,7 @@ beach <- gis_osm_natural_free_1[gis_osm_natural_free_1$fclass=="beach",]
 cliff <- gis_osm_natural_free_1[gis_osm_natural_free_1$fclass=="cliff",]
 
 # Read shapes of main 18 islands (processed in get_data)
-main18_islands <- readOGR(dsn = "../shapes/main18_islands", layer = "main18_islands")
+main18_islands <- readOGR(dsn = here("shapes", "main18_islands"), layer = "main18_islands")
 main18_islands <- spTransform(main18_islands, CRS=CRS("+init=epsg:3857"))
 plot(main18_islands, col = "orange")
 
@@ -90,22 +91,22 @@ main18_islands$name_unicode <- c("\u004e\u00f3\u006c\u0073\u006f\u0079",
                                           "\u0042\u006f\u0072\u00f0\u006f\u0079")
 
 # Read places (points or lines)
-gis_osm_places_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_places_free_1")
+gis_osm_places_free_1 <- readOGR(dsn = here("shapes", "faroe-islands-latest-free.shp"), layer = "gis_osm_places_free_1")
 gis_osm_places_free_1 <- spTransform(gis_osm_places_free_1, CRS=CRS("+init=epsg:3857"))
 
 # Extract capital of Faroe islands
 capital <- gis_osm_places_free_1[gis_osm_places_free_1$name=="Tórshavn",]
 
 # Read roads
-gis_osm_roads_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_roads_free_1")
+gis_osm_roads_free_1 <- readOGR(dsn = here("shapes", "faroe-islands-latest-free.shp"), layer = "gis_osm_roads_free_1")
 gis_osm_roads_free_1 <- spTransform(gis_osm_roads_free_1, CRS=CRS("+init=epsg:3857"))
 
 # Read waterways (areas)
-gis_osm_water_a_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_water_a_free_1")
+gis_osm_water_a_free_1 <- readOGR(dsn = here("shapes", "faroe-islands-latest-free.shp"), layer = "gis_osm_water_a_free_1")
 gis_osm_water_a_free_1 <- spTransform(gis_osm_water_a_free_1, CRS=CRS("+init=epsg:3857"))
 
 # Read waterways (points or lines)
-gis_osm_waterways_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_waterways_free_1")
+gis_osm_waterways_free_1 <- readOGR(dsn = here("shapes", "faroe-islands-latest-free.shp"), layer = "gis_osm_waterways_free_1")
 gis_osm_waterways_free_1 <- spTransform(gis_osm_waterways_free_1, CRS=CRS("+init=epsg:3857"))
 
 # Extract single islands
@@ -171,8 +172,7 @@ mymax <- main18_islands@bbox[2,2]+3000
 
 coord <- coord_equal(xlim = c(mxmin, mxmax), ylim = c(mymin, mymax), expand = FALSE)
 asp <- coord$aspect(list(x.range = range(c(mxmin, mxmax)), y.range = range(c(mymin, mymax))))
-asp
-# Instagram maximum Height/Width ratio is 1.25
+asp # e.g. Instagram maximum Height/Width ratio is 1.25
 
 p <- ggplot() +
   coord_equal(xlim = c(mxmin, mxmax), ylim = c(mymin, mymax), expand = F) +
@@ -265,7 +265,7 @@ p
 # Save plot in PNG
 w <- 2000
 r <- 230
-png("../out/faroe_distances.png", bg = "red", width = w, height = w*asp, res = r, units = "px") 
+png(here("out", "faroe_distances.png"), bg = "RoyalBlue4", width = w, height = w*asp, res = r, units = "px") 
 print(p)
 dev.off()
 
@@ -348,7 +348,7 @@ p
 # Save plot in PNG
 w <- 2000
 r <- 230
-png("../out/faroe_sysla.png", bg = "red", width = w, height = w*asp, res = r, units = "px") 
+png(here("out", "faroe_sysla.png"), bg = "white", width = w, height = w*asp, res = r, units = "px") 
 print(p)
 dev.off()
 
@@ -446,7 +446,7 @@ p
 # Save plot in PNG
 w <- 2000
 r <- 230
-png("../out/faroe_density.png", bg = "red", width = w, height = w*asp, res = r, units = "px") 
+png(here("out", "faroe_density.png"), bg = "white", width = w, height = w*asp, res = r, units = "px") 
 print(p)
 dev.off()
 
@@ -603,7 +603,7 @@ p
 # Save plot in PNG
 w <- 2000
 r <- 230
-png("../out/faroe_building_density.png", bg = "red", width = w, height = w*asp, res = r, units = "px") 
+png(here("out", "faroe_building_density.png"), bg = "white", width = w, height = w*asp, res = r, units = "px") 
 print(p)
 dev.off()
 
@@ -777,6 +777,6 @@ p
 # Save plot in PNG
 w <- 2000
 r <- 230
-png("../out/faroe_beach.png", bg = "red", width = w, height = w*asp, res = r, units = "px") 
+png(here("out", "faroe_beach.png"), bg = "lightblue", width = w, height = w*asp, res = r, units = "px") 
 print(p)
 dev.off()

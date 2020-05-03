@@ -11,6 +11,7 @@ rm(list=ls())
 library(rgdal) # version 1.2.18
 library(readr) # version 1.3.1
 library(dplyr) # version 0.8.0.1
+library(here)
 
 sessionInfo()
 
@@ -22,30 +23,30 @@ sessionInfo()
 # All needed shapes will be read with readOGR function and reprojected to Web Mercator (EPSG: 3857).
 
 # Read buildings
-gis_osm_buildings_a_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_buildings_a_free_1")
+gis_osm_buildings_a_free_1 <- readOGR(dsn = here("shapes", "faroe-islands-latest-free.shp"), layer = "gis_osm_buildings_a_free_1")
 gis_osm_buildings_a_free_1 <- spTransform(gis_osm_buildings_a_free_1, CRS=CRS("+init=epsg:3857"))
 
 # Read natural (areas)
-gis_osm_natural_a_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_natural_a_free_1")
+gis_osm_natural_a_free_1 <- readOGR(dsn = here("shapes", "faroe-islands-latest-free.shp"), layer = "gis_osm_natural_a_free_1")
 gis_osm_natural_a_free_1 <- spTransform(gis_osm_natural_a_free_1, CRS=CRS("+init=epsg:3857"))
 
 # Extract beaches (areas)
 beach_a <- gis_osm_natural_a_free_1[gis_osm_natural_a_free_1$fclass=="beach",]
 
 # Read natural (points or lines)
-gis_osm_natural_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_natural_free_1")
+gis_osm_natural_free_1 <- readOGR(dsn = here("shapes", "faroe-islands-latest-free.shp"), layer = "gis_osm_natural_free_1")
 gis_osm_natural_free_1 <- spTransform(gis_osm_natural_free_1, CRS=CRS("+init=epsg:3857"))
 
 # Extract beaches (points or lines)
 beach <- gis_osm_natural_free_1[gis_osm_natural_free_1$fclass=="beach",]
 
 # Read places (areas)
-gis_osm_places_a_free_1 <- readOGR(dsn = "../shapes/faroe-islands-latest-free.shp", layer = "gis_osm_places_a_free_1")
+gis_osm_places_a_free_1 <- readOGR(dsn = here("shapes", "faroe-islands-latest-free.shp"), layer = "gis_osm_places_a_free_1")
 gis_osm_places_a_free_1 <- spTransform(gis_osm_places_a_free_1, CRS=CRS("+init=epsg:3857"))
 
 # I downloaded Wikipedia table with 18 main islands of Faroe and some information, stored in /data subfolder
 # Read Wikipedia table
-main_islands_wiki <- read_delim("../data/main_islands_wiki.csv", ";", 
+main_islands_wiki <- read_delim(here("data", "main_islands_wiki.csv"), ";", 
                                 escape_double = FALSE, trim_ws = TRUE)
 
 # From wikipedia we see 18 main islands. In OSM places layer we have more than 18 polygons, 
@@ -101,7 +102,6 @@ gis_osm_places_a_free_1 <- gis_osm_places_a_free_1[(!gis_osm_places_a_free_1$osm
                                                                                          780606943,
                                                                                          782661526)) &
                                                      (!is.na(gis_osm_places_a_free_1$name)),]
-
 
 # Koltur island have two polygons, let's check if we can union them
 Koltur1 <- gis_osm_places_a_free_1[gis_osm_places_a_free_1$osm_id==2066799,]
@@ -167,4 +167,4 @@ gis_osm_places_a_free_1$osm_id <- as.factor(gis_osm_places_a_free_1$osm_id)
 gis_osm_places_a_free_1$beach_freq <- coalesce(gis_osm_places_a_free_1$beach_freq, 0L)
 gis_osm_places_a_free_1@data$beach_density <- gis_osm_places_a_free_1$beach_freq/gis_osm_places_a_free_1$area_km2
 
-writeOGR(gis_osm_places_a_free_1, "../shapes/main18_islands", "main18_islands", driver="ESRI Shapefile")
+writeOGR(gis_osm_places_a_free_1, here("shapes", "main18_islands"), "main18_islands", driver="ESRI Shapefile")
